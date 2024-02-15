@@ -1,7 +1,6 @@
 const users = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 exports.addUser = async (req, res) => {
   const { user, pwd, email } = req.body;
@@ -44,8 +43,7 @@ exports.loginUser = async (req, res) => {
   if (!foundUser) return res.sendStatus(401);
   const matchPwd = await bcrypt.compare(pwd, foundUser.pwd);
   if (matchPwd) {
-    console.log(Object);
-    const roles = Object.values(foundUser.roles).filter(Boolean);
+    const roles = Object.values(foundUser.roles);
 
     const accessToken = jwt.sign(
       { "UserInfo": { "user": foundUser.user, "roles": roles } },
@@ -59,7 +57,6 @@ exports.loginUser = async (req, res) => {
     );
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
-    console.log(result);
     // res.status(200).json(foundUser);
     res.cookie("jwt", refreshToken, {
       httpOnly: true,

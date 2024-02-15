@@ -5,16 +5,19 @@ const userControllers = require("../Controllers/userControllers");
 const logoutControllers = require("../Controllers/logoutController");
 const verifyJwt = require("../middleware/verifyJWT");
 const { handleRefreshToken } = require("../Controllers/refreshTokenController");
+const verifyRoles = require("../middleware/verifyRoles");
+const Roles_List = require("../config/roles_list");
 
-router.post("/add",verifyJwt, controllers.addProduct);
+
+router.post("/add",verifyJwt,verifyRoles(Roles_List.Admin), controllers.addProduct);
 
 router.get("/", controllers.getAllProducts);
 
 router.get("/edit/:id", controllers.getSingleProduct);
 
-router.put("/edit/:id",verifyJwt, controllers.updateProduct);
+router.put("/edit/:id",verifyJwt, verifyRoles(Roles_List.Admin), controllers.updateProduct);
 
-router.delete("/delete/:id", verifyJwt, controllers.deleteProduct);
+router.delete("/delete/:id", verifyJwt, verifyRoles(Roles_List.Admin),controllers.deleteProduct);
 
 router.post("/add_user", userControllers.addUser);
 

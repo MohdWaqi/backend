@@ -1,6 +1,5 @@
 const users = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 exports.handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
