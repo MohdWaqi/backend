@@ -1,6 +1,6 @@
 const users = require("../models/userSchema");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken"); 
 
 exports.addUser = async (req, res) => {
   const { user, pwd, email } = req.body;
@@ -20,12 +20,11 @@ exports.addUser = async (req, res) => {
 
   try {
     const hashedPwd = await bcrypt.hash(pwd, 10);
-    const newUser = new users({
+    const newUser = await users.create({
       user: user,
       email: email,
       pwd: hashedPwd,
     });
-    await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ message: "Server not responding" });
@@ -57,7 +56,6 @@ exports.loginUser = async (req, res) => {
     );
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
-    // res.status(200).json(foundUser);
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite:"None",
