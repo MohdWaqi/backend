@@ -50,7 +50,7 @@ exports.loginUser = async (req, res) => {
     const accessToken = jwt.sign(
       { "UserInfo": { "user": foundUser.user, "roles": roles } },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "900s" }
+      { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
       { "user": foundUser.user },
@@ -63,7 +63,9 @@ exports.loginUser = async (req, res) => {
     // res.status(200).json(foundUser);
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      sameSite:"None",
+      secure:true,
+      maxAge: 24 * 60 * 60 * 1000
     });
     res.json({ roles, accessToken });
   } else {
