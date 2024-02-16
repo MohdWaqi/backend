@@ -39,10 +39,10 @@ exports.loginUser = async (req, res) => {
       .json({ message: "Bad Request Please enter the details" });
   }
   const foundUser = await users.findOne({ user }).exec();
-  if (!foundUser) return res.sendStatus(401);
+  if (!foundUser) return res.sendStatus(404);
   const matchPwd = await bcrypt.compare(pwd, foundUser.pwd);
   if (matchPwd) {
-    const roles = Object.values(foundUser.roles);
+    const roles = Object.values(foundUser.roles).filter(Boolean);
 
     const accessToken = jwt.sign(
       { "UserInfo": { "user": foundUser.user, "roles": roles } },

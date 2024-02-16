@@ -9,13 +9,16 @@ const router = require("./Routes/router");
 const cookieParser = require("cookie-parser");
 const connected = require("./config/connect");
 const { default: mongoose } = require("mongoose");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleware/credentials");
 const port = 8000;
 
 connected()
 
+app.use(credentials)
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended:true }));
+app.use(express.json());
 
 app.use(upload.array());
 app.use(cookieParser());
