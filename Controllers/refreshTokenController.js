@@ -3,10 +3,11 @@ const jwt = require("jsonwebtoken");
 
 exports.handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
-  console.log(cookies.jwt);
+  if (!cookies?.jwt) return res.status(401).json({message: "Cannot find any authentication tokens"});
   const refreshToken = cookies.jwt;
-  const foundUser = await users.findOne({ refreshToken }).exec();
+  try {
+    
+    const foundUser = await users.findOne({ refreshToken }).exec();
   if (!foundUser) return res.sendStatus(403);
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
     if (err || foundUser.user !== decoded.user) return res.sendStatus(403);
@@ -19,4 +20,8 @@ exports.handleRefreshToken = async (req, res) => {
     );
     res.json({ roles, accessToken });
   });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+  
 };

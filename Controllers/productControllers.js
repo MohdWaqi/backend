@@ -320,13 +320,11 @@ exports.updateProduct = async (req, res) => {
         sell15,
         weight15,
         price15,
-      },
-      { new: true }
+      }
     );
-    await alterProduct.save();
     res.status(200).json(alterProduct);
   } catch (error) {
-    res.status(401).json(error);
+    res.status(500).json({message:"Internal Server Error"});
     console.log(error);
   }
 };
