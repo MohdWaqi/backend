@@ -16,7 +16,7 @@ const port = 8000;
 connected()
 
 app.use(credentials)
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.urlencoded({ extended:true }));
 app.use(express.json());
 
