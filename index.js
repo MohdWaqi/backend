@@ -9,12 +9,10 @@ const router = require("./Routes/router");
 const cookieParser = require("cookie-parser");
 const connected = require("./config/connect");
 const { default: mongoose } = require("mongoose");
-const credentials = require("./middleware/credentials");
 const port = 8000;
 
 connected();
 
-app.use(credentials);
 app.use(
   cors({ origin: process.env.URL, credentials: true })
 );
