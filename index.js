@@ -13,20 +13,22 @@ const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
 const port = 8000;
 
-connected()
+connected();
 
-app.use(credentials)
-app.use(cors());
-app.use(express.urlencoded({ extended:true }));
+app.use(credentials);
+app.use(
+  cors({ origin: "https://ykhandicraft.netlify.app", credentials: true })
+);
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(upload.array());
 app.use(cookieParser());
 app.use(router);
 
-mongoose.connection.once("open", ()=>{
-  console.log("connected to Mongo Successfully")
+mongoose.connection.once("open", () => {
+  console.log("connected to Mongo Successfully");
   app.listen(port, () => {
     console.log(`Server is Running on port ${port}`);
   });
-})
+});
