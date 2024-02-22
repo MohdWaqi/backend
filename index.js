@@ -9,7 +9,6 @@ const router = require("./Routes/router");
 const cookieParser = require("cookie-parser");
 const connected = require("./config/connect");
 const { default: mongoose } = require("mongoose");
-const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
 const port = 8000;
 
@@ -17,7 +16,7 @@ connected();
 
 app.use(credentials);
 app.use(
-  cors({ origin: "https://ykhandicraft.netlify.app", credentials: true })
+  cors({ origin: process.env.URL, credentials: true })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
