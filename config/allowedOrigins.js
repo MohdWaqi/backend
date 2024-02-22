@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    process.env.URL
+    "https://ykhandicraft.netlify.app/"
 ];
 
 module.exports = allowedOrigins;
