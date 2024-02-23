@@ -7,12 +7,12 @@ exports.handleLogout = async (req, res) => {
      
     const foundUser = await users.findOne({ refreshToken }).exec();
     if (!foundUser) {
-        res.clearCookie("jwt", { httpOnly: true, secure: true });
+        res.clearCookie("jwt", { httpOnly: true});
         return res.sendStatus(204);
     }
     foundUser.refreshToken = "";
     const result = await foundUser.save();
-    res.clearCookie("jwt", { httpOnly: true, secure: true });
+    res.clearCookie("jwt", { httpOnly: true });
     res.sendStatus(204);
   }
   
