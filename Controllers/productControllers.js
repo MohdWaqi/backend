@@ -158,8 +158,6 @@ exports.addProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    // const productData = await product.find();
-    // res.status(200).json(productData);
     let { page, limit, search } = req.query;
     page = parseInt(page) || 1; 
     limit = parseInt(limit) || 10; 
@@ -173,7 +171,6 @@ exports.getAllProducts = async (req, res) => {
 
     const totalCount = await product.countDocuments(query);
     const totalPages = Math.ceil(totalCount / limit);
-
     const products = await product.find(query).skip(skip).limit(limit);
 
     res.status(200).json({
@@ -183,7 +180,7 @@ exports.getAllProducts = async (req, res) => {
       totalCount
     });
   } catch (error) {
-    res.status(401).json(error);
+    res.status(500).json({message:"Internal Error"});
   }
 };
 
