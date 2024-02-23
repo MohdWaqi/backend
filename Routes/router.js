@@ -7,11 +7,8 @@ const verifyJwt = require("../middleware/verifyJWT");
 const { handleRefreshToken } = require("../Controllers/refreshTokenController");
 const verifyRoles = require("../middleware/verifyRoles");
 const Roles_List = require("../config/roles_list");
-const credentials = require("../middleware/credentials");
 
 router.get("/", controllers.getAllProducts);
-
-router.use(credentials)
 
 router.post("/add",verifyJwt,verifyRoles(Roles_List.Admin), controllers.addProduct);
 

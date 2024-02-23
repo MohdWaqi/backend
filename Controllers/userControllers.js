@@ -32,6 +32,7 @@ exports.addUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  console.log(req.headers)
   const { user, pwd } = req.body;
   if (!user || !pwd) {
     return res
