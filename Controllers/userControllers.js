@@ -32,7 +32,6 @@ exports.addUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  console.log(req.headers)
   const { user, pwd } = req.body;
   if (!user || !pwd) {
     return res
@@ -59,6 +58,7 @@ exports.loginUser = async (req, res) => {
     const result = await foundUser.save();
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
+      secure:true,
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.json({ roles, accessToken });

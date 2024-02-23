@@ -13,6 +13,7 @@ const port = 8000;
 
 connected();
 
+app.set("trust proxy", 1)
 app.use(cors({
   origin: 'https://ykhandicraft.netlify.app',
   credentials: true
